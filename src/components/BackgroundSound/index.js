@@ -55,5 +55,5 @@ const MusicPlayer = ({ music }) => {
         </View>
     );
 };
-nb
+
 export default MusicPlayer;
