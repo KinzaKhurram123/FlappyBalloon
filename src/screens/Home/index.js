@@ -8,12 +8,12 @@ import {
   Dimensions,
   ImageBackground,
 } from 'react-native';
-import images from './src/constant/images';
+import images from '../../constant/images';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const App = () => {
+const Home = () => {
   const [baloonBottom, setbaloonBottom] = useState(windowHeight / 2);
   const [pipes, setPipes] = useState([]);
   const [score, setScore] = useState(0);
@@ -28,7 +28,7 @@ const App = () => {
   useEffect(() => {
     if (!gameOver) {
       const gameTimer = setInterval(() => {
-        moveBird();
+        moveBaloon();
         movePipes();
         checkCollision();
         updateScore();
@@ -37,7 +37,7 @@ const App = () => {
     }
   }, [baloonBottom, pipes]);
 
-  const moveBird = () => {
+  const moveBaloon = () => {
     setbaloonBottom(baloonBottom => baloonBottom - gravity);
   };
 
@@ -82,9 +82,9 @@ const App = () => {
   };
 
   const checkCollision = () => {
-    const birdTop = baloonBottom;
-    const birdRight = windowWidth / 2 + ballonWidth / 2;
-    const birdLeft = windowWidth / 2 - ballonWidth / 2;
+    const ballonTop = baloonBottom;
+    const baloonRight = windowWidth / 2 + ballonWidth / 2;
+    const baloonLeft = windowWidth / 2 - ballonWidth / 2;
 
     pipes.forEach(pipe => {
       const pipeTop = pipe.top;
@@ -93,9 +93,9 @@ const App = () => {
       const pipeRight = pipe.left + pipeWidth;
 
       if (
-        birdRight > pipeLeft &&
-        birdLeft < pipeRight &&
-        (birdTop < pipeTop || birdTop + baloonHeight > pipeBottom)
+        baloonRight > pipeLeft &&
+        baloonLeft < pipeRight &&
+        (ballonTop < pipeTop || ballonTop + baloonHeight > pipeBottom)
       ) {
         gameOverHandler();
       }
@@ -105,7 +105,7 @@ const App = () => {
   const updateScore = () => {
     pipes.forEach(pipe => {
       if (pipe.left === windowWidth / 2 - pipeWidth / 2) {
-        setScore(score => score + 1);
+        setScore(score + 1);
       }
     });
   };
@@ -113,6 +113,10 @@ const App = () => {
   const gameOverHandler = () => {
     setGameOver(true);
     setPipes([]);
+  };
+
+  const onPressReplay = () => {
+    setGameOver(false);
   };
 
   return (
@@ -128,8 +132,8 @@ const App = () => {
         <Image
           source={images.dark_blue_baloon}
           style={{
-            // position: 'absolute',
-            // bottom: baloonBottom,
+            position: 'absolute',
+            bottom: baloonBottom,
             left: windowWidth / 2 - ballonWidth / 2,
           }}
         />
@@ -165,12 +169,20 @@ const App = () => {
         <View style={styles.gameOverContainer}>
           <Text style={styles.gameOverText}>Game Over</Text>
           <Text style={styles.scoreText}>Score: {score}</Text>
+          <TouchableOpacity
+            style={{marginTop: 20}}
+            onPress={() => onPressReplay()}>
+            <Text style={styles.replay_text}>Replay</Text>
+          </TouchableOpacity>
         </View>
       )}
+
       <Text style={styles.scoreLabel}>Score: {score}</Text>
     </ImageBackground>
   );
 };
+
+export default Home;
 
 const styles = StyleSheet.create({
   container: {
@@ -202,6 +214,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
+  replay_text: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'black',
+  },
 });
-
-export default App;
