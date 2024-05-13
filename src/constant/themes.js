@@ -34,25 +34,6 @@ export const SIZES = {
   h32: 32,
 };
 
-export const FONTS = {
-  Bold14: {
-    fontFamily: 'DragonHunter-9Ynxj',
-    fontSize: RFValue(SIZES.h14),
-  },
-  Bold15: {
-    fontFamily: 'DragonHunter-9Ynxj',
-    fontSize: RFValue(SIZES.h15),
-  },
-  Bold16: {
-    fontFamily: 'DragonHunter-9Ynxj',
-    fontSize: RFValue(SIZES.h16),
-  },
-  Bold20: {
-    fontFamily: 'DragonHunter-9Ynxj',
-    fontSize: RFValue(SIZES.h20),
-  },
-};
-
-const appTheme = {SIZES, FONTS};
+const appTheme = {SIZES};
 
 export default appTheme;
