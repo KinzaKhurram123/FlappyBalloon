@@ -12,12 +12,15 @@ import images from '../../constant/images';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+// The Dimensions of the device's window its specifies all Screens Sizes and adjust the Sizes according to the screens
 
 const Home = () => {
   const [baloonBottom, setbaloonBottom] = useState(windowHeight / 2);
   const [pipes, setPipes] = useState([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  // this is the sets up the initial state of the game using React's useState hook.
+
   const gravity = 3;
   const pipeWidth = 60;
   const pipeHeight = 300;
@@ -25,27 +28,33 @@ const Home = () => {
   const ballonWidth = 50;
   const baloonHeight = 50;
 
+  // These are constants used in the game logic
+
   useEffect(() => {
     if (!gameOver) {
       const gameTimer = setInterval(() => {
         moveBaloon();
         movePipes();
-        checkCollision();
+        Checked();
         updateScore();
       }, 30);
       return () => clearInterval(gameTimer);
     }
   }, [baloonBottom, pipes]);
+  // This useEffect hook runs logic related to the game loop. It executes every 30 milliseconds (30), updating
+  //   the balloon's position, moving pipes, and updating the score. It only runs if the game is not over.
 
   const moveBaloon = () => {
     setbaloonBottom(baloonBottom => baloonBottom - gravity);
   };
+  // This function updates the balloon's position by subtracting the gravity value from its bottom position.
 
   const jump = () => {
     if (baloonBottom < windowHeight - baloonHeight) {
       setbaloonBottom(baloonBottom => baloonBottom + 50);
     }
   };
+  // This function handles the balloon's jump action. It increases the balloon's position if it's not at the bottom of the screen.
 
   const generatePipes = () => {
     let newPipes = [];
@@ -60,6 +69,7 @@ const Home = () => {
     });
     setPipes(pipes.concat(newPipes));
   };
+  // The code continues with functions for generating pipes, moving them, updating the score, handling game over, and replaying the game.
 
   const movePipes = () => {
     setPipes(pipes =>
@@ -81,7 +91,7 @@ const Home = () => {
     }
   };
 
-  const checkCollision = () => {
+  const Checked = () => {
     const ballonTop = baloonBottom;
     const baloonRight = windowWidth / 2 + ballonWidth / 2;
     const baloonLeft = windowWidth / 2 - ballonWidth / 2;
@@ -182,4 +192,5 @@ const Home = () => {
   );
 };
 
+// it returns JSX elements representing the game screen, including the balloon, pipes, game over message, and score label.
 export default Home;
